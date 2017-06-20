@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="2.0.0-preview1-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fortes.Core.Modelo\Fortes.Core.Modelo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fortes.Core.Modelo", "Fortes.Core.Modelo\Fortes.Core.Modelo.csproj", "{C9B05886-0A51-4400-B5F7-59F1FD87B5BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fortes.Core.Console.Migrations", "Fortes.Core.Test\Fortes.Core.Console.Migrations.csproj", "{004048DE-9BF6-4AAA-B2C0-4E55F625CF58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fortes.Core.Modelo.SqlServer", "Fortes.Core.Modelo.SqlServer\Fortes.Core.Modelo.SqlServer.csproj", "{DAFD1D8E-AA0D-4822-BDEF-23BBE50F1AEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fortes.Core.Modelo.PostgreSql", "Fortes.Core.Modelo.PostgreSql\Fortes.Core.Modelo.PostgreSql.csproj", "{D3956CCD-B92E-40F5-97E5-BAA205059511}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modelo", "modelo", "{3A9145FE-606C-4AE8-A93D-57A1C29F753F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fortes.Core.Web", "Fortes.Core.Web\Fortes.Core.Web.csproj", "{AEBE16EA-228E-413C-89ED-59DE227951FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9B05886-0A51-4400-B5F7-59F1FD87B5BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9B05886-0A51-4400-B5F7-59F1FD87B5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9B05886-0A51-4400-B5F7-59F1FD87B5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9B05886-0A51-4400-B5F7-59F1FD87B5BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{004048DE-9BF6-4AAA-B2C0-4E55F625CF58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{004048DE-9BF6-4AAA-B2C0-4E55F625CF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{004048DE-9BF6-4AAA-B2C0-4E55F625CF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{004048DE-9BF6-4AAA-B2C0-4E55F625CF58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAFD1D8E-AA0D-4822-BDEF-23BBE50F1AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFD1D8E-AA0D-4822-BDEF-23BBE50F1AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFD1D8E-AA0D-4822-BDEF-23BBE50F1AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFD1D8E-AA0D-4822-BDEF-23BBE50F1AEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3956CCD-B92E-40F5-97E5-BAA205059511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3956CCD-B92E-40F5-97E5-BAA205059511}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3956CCD-B92E-40F5-97E5-BAA205059511}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3956CCD-B92E-40F5-97E5-BAA205059511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEBE16EA-228E-413C-89ED-59DE227951FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBE16EA-228E-413C-89ED-59DE227951FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBE16EA-228E-413C-89ED-59DE227951FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBE16EA-228E-413C-89ED-59DE227951FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9B05886-0A51-4400-B5F7-59F1FD87B5BE} = {3A9145FE-606C-4AE8-A93D-57A1C29F753F}
+		{004048DE-9BF6-4AAA-B2C0-4E55F625CF58} = {3A9145FE-606C-4AE8-A93D-57A1C29F753F}
+		{DAFD1D8E-AA0D-4822-BDEF-23BBE50F1AEC} = {3A9145FE-606C-4AE8-A93D-57A1C29F753F}
+		{D3956CCD-B92E-40F5-97E5-BAA205059511} = {3A9145FE-606C-4AE8-A93D-57A1C29F753F}
+	EndGlobalSection
+EndGlobal

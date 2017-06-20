@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="2.0.0-preview1" />
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.0.0-preview1-002111-00" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fortes.Core.Modelo.PostgreSql\Fortes.Core.Modelo.PostgreSql.csproj" />
+    <ProjectReference Include="..\Fortes.Core.Modelo.SqlServer\Fortes.Core.Modelo.SqlServer.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0-preview1-final" />
+  </ItemGroup>
+</Project>

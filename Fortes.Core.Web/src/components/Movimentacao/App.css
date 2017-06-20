@@ -1,0 +1,12 @@
+﻿.navbar .container-fluid, .content .container-fluid {
+    box-sizing: border-box;
+    max-width: 960px;
+}
+
+.row, .col {
+    box-sizing: content-box;
+}
+
+.table {
+    box-sizing: border-box;
+}

@@ -1,0 +1,2 @@
+﻿dotnet ef -p ../Fortes.Core.Modelo.SqlServer -s ../Fortes.Core.Test migrations add -o Migrations Inicial
+dotnet ef -p ../Fortes.Core.Modelo.PostgreSql -s ../Fortes.Core.Test migrations add -o Migrations Inicial

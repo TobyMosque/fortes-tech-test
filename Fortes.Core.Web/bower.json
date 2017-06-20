@@ -1,0 +1,21 @@
+{
+  "name": "asp.net",
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7"
+  },
+  "authors": [
+    "Tobias Mesquita <tobias.mesquita@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "wwwroot/lib",
+    "test",
+    "tests"
+  ]
+}
