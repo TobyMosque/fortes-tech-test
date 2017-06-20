@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Fortes.Core.Web.Consultas;
 using Microsoft.AspNetCore.Http;
 using Fortes.Core.Web.Models.RecursoModels;
 using Fortes.Core.Modelo.Entidades.Enumeradores;
+using Fortes.Core.Web.UsuarioConsultas;
+using Fortes.Core.Web.Models.UsuarioModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,10 +21,18 @@ namespace Fortes.Core.Web.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            var sessao = await db.Sessoes.FindAsync(db.SessaoID);
+            var sessao = await db.GetSessao(db.SessaoID.Value);
             sessao.IsActive = false;
             await db.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> GetUsuario()
+        {
+            var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
+            return Ok(usuario);
         }
     }
 }

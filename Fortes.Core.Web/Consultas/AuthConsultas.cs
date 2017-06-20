@@ -8,15 +8,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fortes.Core.Web.Consultas
+namespace Fortes.Core.Web.AuthConsultas
 {
-    internal static class AuthConsultas
+    internal static class Extensoes
     {
-        private static readonly Func<Contexto, AsyncEnumerable<Grupo>> _GetGrupos = EF.CompileAsyncQuery((Contexto db) => db.Grupos);
+        private static readonly Func<Contexto, AsyncEnumerable<Grupo>> _GetGrupos = EF
+            .CompileAsyncQuery((Contexto db) => db.Grupos);
 
-        private static readonly Func<Contexto, int, Task<Grupo>> _GetGrupoById = EF.CompileAsyncQuery((Contexto db, int grupoId) => db.Grupos.FirstOrDefault(u => u.GrupoID == grupoId));
+        private static readonly Func<Contexto, int, Task<Grupo>> _GetGrupoById = EF
+            .CompileAsyncQuery((Contexto db, int grupoId) => db.Grupos
+                .FirstOrDefault(u => u.GrupoID == grupoId));
 
-        private static readonly Func<Contexto, string, Task<Usuario>> _GetUsuarioByLogon = EF.CompileAsyncQuery((Contexto db, string logon) => db.Usuarios.FirstOrDefault(u => u.Logon == logon));
+        private static readonly Func<Contexto, string, Task<Usuario>> _GetUsuarioByLogon = EF
+            .CompileAsyncQuery((Contexto db, string logon) => db.Usuarios
+                .FirstOrDefault(u => u.Logon == logon));
 
         internal static async Task<List<Grupo>> GetGrupos(this Contexto db)
         {

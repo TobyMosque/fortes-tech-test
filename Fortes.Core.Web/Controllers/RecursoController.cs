@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Fortes.Core.Web.Consultas;
+using Fortes.Core.Web.RecursoConsultas;
 using Microsoft.AspNetCore.Http;
 using Fortes.Core.Web.Models.RecursoModels;
 using Fortes.Core.Modelo.Entidades.Enumeradores;
+using Fortes.Core.Web.UsuarioConsultas;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,16 +18,9 @@ namespace Fortes.Core.Web.Controllers
     public class RecursoController : Controller
     {
         [HttpGet]
-        public async Task<List<Modelo.Entidades.Recurso>> Get()
+        public async Task<List<RecursoViewModel>> Get()
         {
             return await db.GetRecursos();
-        }
-
-        [HttpGet]
-        [Route("{recursoId}")]
-        public async Task<Modelo.Entidades.Recurso> Get(Guid recursoId)
-        {
-            return await db.GetRecursoById(recursoId);
         }
 
         [HttpPost]
@@ -37,8 +31,7 @@ namespace Fortes.Core.Web.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, erros);
 
             model.RecursoID = Guid.NewGuid();
-            var sessao = await db.Sessoes.Include(x => x.Usuario)
-                .FirstOrDefaultAsync(u => u.SessaoID == db.SessaoID);            
+            var sessao = await db.GetSessao(db.SessaoID.Value);            
 
             var recurso = new Modelo.Entidades.Recurso();
             recurso.RecursoID = model.RecursoID.Value;
@@ -98,7 +91,7 @@ namespace Fortes.Core.Web.Controllers
         [Route("{recursoId}")]
         public async Task<IActionResult> Delete(Guid recursoId)
         {
-            var recurso = db.Recursos.Find(recursoId);
+            var recurso = db.GetRecursoById(recursoId);
             if (recurso == null)
             {
                 ModelState.AddModelError("RecursoID", "Recurso não encontrado");

@@ -1,15 +1,17 @@
-﻿export default {
+﻿var Recurso = function () {
+	this.recursoID = null;
+	this.descricao = '';
+	this.quantidade = 0;
+	this.observacao = '';
+}
+
+export default {
 	name: 'recurso',
 	data() {
 		return {
 			acao: 'Cadastrar',
             verb: 'post',
-			recurso: {
-				recursoID: null,
-				descricao: '',
-				quantidade: 0,
-                observacao: '',
-			},
+			recurso: new Recurso(),
 			atual: null,
             recursos: []
 		}
@@ -21,12 +23,7 @@
 		showCadastrar: function (event) {
 			this.acao = 'Cadastrar'
 			this.verb = 'post'
-			this.recurso = {
-				recursoID: null,
-				descricao: '',
-				quantidade: 0,
-				observacao: '',
-			}
+			this.recurso = new Recurso()
 			this.atual = {}
 			$("#modal").modal('show')
 		},

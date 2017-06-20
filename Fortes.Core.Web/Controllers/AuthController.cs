@@ -10,7 +10,7 @@ using Fortes.Core.Modelo.Utils;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Fortes.Core.Modelo;
-using Fortes.Core.Web.Consultas;
+using Fortes.Core.Web.AuthConsultas;
 using Fortes.Core.Web.Models.AuthModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
