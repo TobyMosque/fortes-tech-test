@@ -1,6 +1,8 @@
 ﻿using Fortes.Core.Modelo.Entidades;
+using Fortes.Core.Modelo.Entidades.Dominio;
 using Fortes.Core.Modelo.SqlServer;
 using Fortes.Core.Web.Models.MovimentacaoModels;
+using Fortes.Core.Web.Models.RecursoModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
@@ -17,7 +19,6 @@ namespace Fortes.Core.Web.MovimentacaoConsultas
             .CompileAsyncQuery((Contexto db, Guid recursoId, Guid usuarioId) => db.Movimentacoes
                 .Include(r => r.Usuario)
                 .Include(r => r.TipoMovimentacao)
-                .Include(r => r.Recurso)
                 .Where(r => r.RecursoID == recursoId)
                 .Select(m => new MovimentacaoViewModel
                 {
@@ -26,21 +27,40 @@ namespace Fortes.Core.Web.MovimentacaoConsultas
                     UsuarioID = m.UsuarioID,
                     TipoMovimentacaoID = m.TipoMovimentacaoID,
                     Quantidade = m.Quantidade,
-                    Total = m.Recurso.Quantidade,
-                    TipoDescricao = m.TipoMovimentacao.Descricao,
                     UsuarioNome = m.Usuario.Logon,
                     IsOwner = m.UsuarioID == usuarioId
                 }));
+
+        private static readonly Func<Contexto, AsyncEnumerable<TipoMovimentacao>> _GetTiposMovimentacao = EF
+            .CompileAsyncQuery((Contexto db) => db.TiposMovimentacao);
 
         private static readonly Func<Contexto, Guid, Task<bool>> _GetRecursoExists = EF
             .CompileAsyncQuery((Contexto db, Guid recursoId) => db.Recursos
                 .Any(x => x.RecursoID == recursoId));
 
-        private static readonly Func<Contexto, Guid, Task<Recurso>> _GetGetRecursoById = EF
-            .CompileAsyncQuery((Contexto db, Guid recursoId) => db.Recursos.Find(recursoId));
+        private static readonly Func<Contexto, Guid, Task<Recurso>> _GetRecursoById = EF
+            .CompileAsyncQuery((Contexto db, Guid recursoId) => db.Recursos.FirstOrDefault(r => r.RecursoID == recursoId));
+
+        private static readonly Func<Contexto, Guid, Task<RecursoViewModel>> _GetGetRecursoModelById = EF
+            .CompileAsyncQuery((Contexto db, Guid recursoId) => db.Recursos
+                .Where(r => r.RecursoID == recursoId)
+                .Select(r => new RecursoViewModel
+                {
+                    Descricao = r.Descricao,
+                    Observacao = r.Observacao,
+                    Quantidade = r.Quantidade,
+                    RecursoID = r.RecursoID
+                }).FirstOrDefault());
 
         private static readonly Func<Contexto, Guid, Task<Movimentacao>> _GetMovimentacaoById = EF
-            .CompileAsyncQuery((Contexto db, Guid movimentacaoId) => db.Movimentacoes.Find(movimentacaoId));
+            .CompileAsyncQuery((Contexto db, Guid movimentacaoId) => db.Movimentacoes
+                .Include(m => m.Recurso)
+                .FirstOrDefault(m => m.MovimentacaoID ==movimentacaoId));
+
+        internal static async Task<List<TipoMovimentacao>> GetTiposMovimentacao(this Contexto db)
+        {
+            return await _GetTiposMovimentacao(db).ToListAsync();
+        }
 
         internal static async Task<List<MovimentacaoViewModel>> GetMovimentacoesByRecursoById(this Contexto db, Guid recursoId, Guid usuarioId)
         {
@@ -54,10 +74,15 @@ namespace Fortes.Core.Web.MovimentacaoConsultas
 
         internal static async Task<Recurso> GetRecursoById(this Contexto db, Guid recursoId)
         {
-            return await _GetGetRecursoById(db, recursoId);
+            return await _GetRecursoById(db, recursoId);
         }
 
-        internal static async Task<Movimentacao> GetGetMovimentacaoById(this Contexto db, Guid movimentacaoId)
+        internal static async Task<RecursoViewModel> GetRecursoModelById(this Contexto db, Guid recursoId)
+        {
+            return await _GetGetRecursoModelById(db, recursoId);
+        }
+
+        internal static async Task<Movimentacao> GetMovimentacaoById(this Contexto db, Guid movimentacaoId)
         {
             return await _GetMovimentacaoById(db, movimentacaoId);
         }

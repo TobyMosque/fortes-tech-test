@@ -95,7 +95,8 @@ export default {
 				})
 		},
 		doLogout: function (event) {
-			this.$http.post("api/Usuario/logout", data)
+			event.preventDefault();
+			this.$http.post("api/Usuario/logout")
 				.then((res) => {
 					localStorage.removeItem('token');
 					this.$toastr('success', 'Logout efetuado com Sucesso', 'Fortes Core')

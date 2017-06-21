@@ -27,10 +27,14 @@ namespace Fortes.Core.Web.Controllers
                 return NotFound();
 
             var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
+            var recurso = await db.GetRecursoModelById(recursoId);
             var movimentacoes = await db.GetMovimentacoesByRecursoById(recursoId, usuario.UsuarioID);
-            
+            var tipos = await db.GetTiposMovimentacao();
+
             return Ok(new {
                 Usuario = usuario,
+                Recurso = recurso,
+                Tipos = tipos,
                 Movimentacoes = movimentacoes
             });
         }
@@ -48,7 +52,7 @@ namespace Fortes.Core.Web.Controllers
             if (erros != string.Empty)
                 return StatusCode(StatusCodes.Status400BadRequest, erros);
 
-            var usuario = await db.GetUsuarioBySessaoId(model.RecursoID);
+            var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
             switch (model.TipoMovimentacaoID)
             {
                 case TipoMovimentacao.Entrada:
@@ -68,14 +72,17 @@ namespace Fortes.Core.Web.Controllers
             
             await db.Movimentacoes.AddAsync(movimentacao);
             await db.SaveChangesAsync();
-            return Ok(model.MovimentacaoID);
+            return Ok(new {
+                MovimentacaoID = movimentacao.MovimentacaoID,
+                Estoque = recurso.Quantidade
+            });
         }
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] MovimentacaoViewModel model)
         {
-            var usuario = await db.GetUsuarioBySessaoId(model.RecursoID);
-            var movimentacao = await db.GetGetMovimentacaoById(model.MovimentacaoID);
+            var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
+            var movimentacao = await db.GetMovimentacaoById(model.MovimentacaoID.Value);
             if (movimentacao == null)
                 ModelState.AddModelError("MovimentacaoID", "Movimentacao não encontrada");
 
@@ -115,25 +122,51 @@ namespace Fortes.Core.Web.Controllers
             movimentacao.TipoMovimentacaoID = model.TipoMovimentacaoID;
 
             await db.SaveChangesAsync();
-            return Ok(model.MovimentacaoID);
+            return Ok(new
+            {
+                MovimentacaoID = movimentacao.MovimentacaoID,
+                Estoque = movimentacao.Recurso.Quantidade
+            });
         }
 
         [HttpDelete]
-        [Route("{recursoId}")]
+        [Route("{movimentacaoId}")]
         public async Task<IActionResult> Delete(Guid movimentacaoId)
         {
-            var movimentacao = await db.GetGetMovimentacaoById(movimentacaoId);
+            var movimentacao = await db.GetMovimentacaoById(movimentacaoId);
             if (movimentacao == null)
-            {
                 ModelState.AddModelError("RecursoID", "Movimentação não encontrado");
-                var erros = this.GetError();
-                if (erros != string.Empty)
-                    return StatusCode(StatusCodes.Status400BadRequest, erros);
+            else
+            {
+                var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
+                if (usuario.UsuarioID != movimentacao.UsuarioID)
+                    ModelState.AddModelError("UsuarioID", "Não é possivel remover uma movimentação realizada por outro usuario");
+
+                if (movimentacao.TipoMovimentacaoID == TipoMovimentacao.Entrada && movimentacao.Quantidade > movimentacao.Recurso.Quantidade)
+                    ModelState.AddModelError("TipoMovimentacaoID", "Não é possivel remover esta movimentação, pois isto irá provocar um estoque negativo");
+            }
+
+            var erros = this.GetError();
+            if (erros != string.Empty)
+                return StatusCode(StatusCodes.Status400BadRequest, erros);
+
+            switch (movimentacao.TipoMovimentacaoID)
+            {
+                case TipoMovimentacao.Entrada:
+                    movimentacao.Recurso.Quantidade -= movimentacao.Quantidade;
+                    break;
+                case TipoMovimentacao.Saida:
+                    movimentacao.Recurso.Quantidade += movimentacao.Quantidade;
+                    break;
             }
 
             db.Movimentacoes.Remove(movimentacao);
             await db.SaveChangesAsync();
-            return Ok(movimentacaoId);
+            return Ok(new
+            {
+                MovimentacaoID = movimentacao.MovimentacaoID,
+                Estoque = movimentacao.Recurso.Quantidade
+            });
         }
     }
 }

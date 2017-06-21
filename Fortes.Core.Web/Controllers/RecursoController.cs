@@ -91,7 +91,7 @@ namespace Fortes.Core.Web.Controllers
         [Route("{recursoId}")]
         public async Task<IActionResult> Delete(Guid recursoId)
         {
-            var recurso = db.GetRecursoById(recursoId);
+            var recurso = await db.GetRecursoById(recursoId);
             if (recurso == null)
             {
                 ModelState.AddModelError("RecursoID", "Recurso não encontrado");

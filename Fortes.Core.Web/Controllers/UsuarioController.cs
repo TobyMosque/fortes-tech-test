@@ -17,6 +17,13 @@ namespace Fortes.Core.Web.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : Controller
     {
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
+            return Ok(usuario);
+        }
+
         [HttpPost]
         [Route("logout")]
         public async Task<IActionResult> Logout()
@@ -25,14 +32,6 @@ namespace Fortes.Core.Web.Controllers
             sessao.IsActive = false;
             await db.SaveChangesAsync();
             return Ok();
-        }
-
-        [HttpPost]
-        [Route("logout")]
-        public async Task<IActionResult> GetUsuario()
-        {
-            var usuario = await db.GetUsuarioBySessaoId(db.SessaoID.Value);
-            return Ok(usuario);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Fortes.Core.Web.UsuarioConsultas
             .CompileAsyncQuery((Contexto db, Guid sessaoId) => db.Sessoes
                 .Include(s => s.Usuario)
                 .Select(x => new UsuarioViewModel { UsuarioID = x.UsuarioID, Logon = x.Usuario.Logon })
-                .FirstOrDefault();
+                .FirstOrDefault());
 
         internal static async Task<Sessao> GetSessao(this Contexto db, Guid sessaoId)
         {

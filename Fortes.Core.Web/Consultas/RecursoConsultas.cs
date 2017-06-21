@@ -23,7 +23,7 @@ namespace Fortes.Core.Web.RecursoConsultas
                 }));
 
         private static readonly Func<Contexto, Guid, Task<Recurso>> _GetRecursoById = EF
-            .CompileAsyncQuery((Contexto db, Guid recursoId) => db.Recursos.Find(recursoId));
+            .CompileAsyncQuery((Contexto db, Guid recursoId) => db.Recursos.FirstOrDefault(r => r.RecursoID == recursoId));
 
         internal static async Task<List<RecursoViewModel>> GetRecursos(this Contexto db)
         {

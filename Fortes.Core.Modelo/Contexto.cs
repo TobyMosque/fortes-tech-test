@@ -17,8 +17,13 @@ namespace Fortes.Core.Modelo
 {
     public class Contexto : DbContext
     {
+        private string _grupoId;
+
         public Guid? SessaoID { get; set; }
-        public int GrupoID { get; set; }
+        public int GrupoID {
+            get { return Int32.Parse(_grupoId); }
+            set { _grupoId = value.ToString(); }
+        }
 
         public Contexto() : base()
         {
@@ -222,7 +227,7 @@ namespace Fortes.Core.Modelo
             where T : EntidadeBase<T2>
             where T2 : class, IHistorico
         {
-            entity.HasQueryFilter(x => !x.IsDeleted && x.GrupoID.ToString() == this.GrupoID.ToString());
+            entity.HasQueryFilter(x => !x.IsDeleted && x.GrupoID.ToString() == _grupoId);
             entity.HasOne(x => x.Grupo).WithMany(navigationExpression).HasForeignKey(x => x.GrupoID).OnDelete(DeleteBehavior.Restrict);
 
             entity.Property(x => x.IsDeleted).IsRequired();

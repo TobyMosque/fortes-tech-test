@@ -33,23 +33,23 @@ namespace Fortes.Core.Console.Migrations
         public static string PostgreSqlConnection { get { return Configuration.Root["connectionStrings:postgreSql"]; } }
     }
 
-    public class ContextoFactory : IDbContextFactory<Modelo.SqlServer.Contexto>
-    {
-        public Modelo.SqlServer.Contexto Create(params string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<Contexto>();
-            optionsBuilder.UseSqlServer(Configuration.SqlServerConnection);
-            return new Modelo.SqlServer.Contexto(optionsBuilder.Options, Configuration.SessaoID, Configuration.GrupoID);
-        }
-    }
-
-    //public class ContextoFactory : IDbContextFactory<Modelo.PostgreSql.Contexto>
+    //public class ContextoFactory : IDbContextFactory<Modelo.SqlServer.Contexto>
     //{
-    //    public Modelo.PostgreSql.Contexto Create(params string[] args)
+    //    public Modelo.SqlServer.Contexto Create(params string[] args)
     //    {
     //        var optionsBuilder = new DbContextOptionsBuilder<Contexto>();
-    //        optionsBuilder.UseNpgsql(Configuration.PostgreSqlConnection);
-    //        return new Modelo.PostgreSql.Contexto(optionsBuilder.Options, Configuration.SessaoID, Configuration.GrupoID);
+    //        optionsBuilder.UseSqlServer(Configuration.SqlServerConnection);
+    //        return new Modelo.SqlServer.Contexto(optionsBuilder.Options, Configuration.SessaoID, Configuration.GrupoID);
     //    }
     //}
+
+    public class ContextoFactory : IDbContextFactory<Modelo.PostgreSql.Contexto>
+    {
+        public Modelo.PostgreSql.Contexto Create(params string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<Contexto>();
+            optionsBuilder.UseNpgsql(Configuration.PostgreSqlConnection);
+            return new Modelo.PostgreSql.Contexto(optionsBuilder.Options, Configuration.SessaoID, Configuration.GrupoID);
+        }
+    }
 }
